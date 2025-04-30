@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Scissors, BadgePlus, CutSquare } from 'lucide-react';
+import { Scissors, BadgePlus, Ruler } from 'lucide-react';
 
 const services = [
   {
@@ -11,7 +11,7 @@ const services = [
   },
   {
     name: 'Beard Trim',
-    icon: <CutSquare className="h-8 w-8" />,
+    icon: <Ruler className="h-8 w-8" />,
     description: 'Shape and style your beard for a refined look.',
     price: '$25',
   },
@@ -23,7 +23,7 @@ const services = [
   },
   {
     name: 'Hot Towel Shave',
-    icon: <CutSquare className="h-8 w-8" />,
+    icon: <Ruler className="h-8 w-8" />,
     description: 'Classic straight razor shave with hot towel prep.',
     price: '$45',
   },
