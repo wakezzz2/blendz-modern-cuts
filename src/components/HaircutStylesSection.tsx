@@ -5,37 +5,37 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 const styles = [
   {
     name: 'TUF GENT',
-    description: 'A Timeless Cut for Every Gentleman. Low-maintenance with a touch of class, the TUF Gent is the perfect haircut for the modern gentleman. This classic style blends a natural fade on the sides with a manageable length on top, projecting confidence wherever you go.',
+    description: "A Timeless Cut for Every Gentleman. Low-maintenance with a touch of class, the TUF Gent is the perfect haircut for the modern gentleman. This classic style blends a natural fade on the sides with a manageable length on top, projecting confidence wherever you go.",
     image: 'https://images.unsplash.com/photo-1622286342621-4bd786c2447c?q=80&w=2787&auto=format&fit=crop',
     price: 'PHP 380.00',
   },
   {
     name: 'TONY CUT',
-    description: 'Low-Key. High Impact. A modern remix of the classic military cut, the TONY CUT offers a clean, confident look without the fuss. Short hair, easy styling—it's perfect for men who want to look sharp but don't have time for quiffs or pompadours. The TONY CUT is all about refined, understated style that lets your confidence do the talking.',
+    description: "Low-Key. High Impact. A modern remix of the classic military cut, the TONY CUT offers a clean, confident look without the fuss. Short hair, easy styling—it's perfect for men who want to look sharp but don't have time for quiffs or pompadours. The TONY CUT is all about refined, understated style that lets your confidence do the talking.",
     image: 'https://images.unsplash.com/photo-1605497788044-5a32c7078486?q=80&w=2787&auto=format&fit=crop',
     price: 'PHP 380.00',
   },
   {
     name: 'THE BANKER CUT',
-    description: 'Sharp Lines, Sharper Mind. This classic haircut follows the contours of your head for a clean, confident look. The Banker Cut combines a sophisticated taper with a subtle fade at the neckline, offering a versatile style that's perfect for the gentleman who values both practicality and poise.',
+    description: "Sharp Lines, Sharper Mind. This classic haircut follows the contours of your head for a clean, confident look. The Banker Cut combines a sophisticated taper with a subtle fade at the neckline, offering a versatile style that's perfect for the gentleman who values both practicality and poise.",
     image: 'https://images.unsplash.com/photo-1517832606299-7ae9b720a186?q=80&w=2080&auto=format&fit=crop',
     price: 'PHP 380.00',
   },
   {
     name: 'BASTARD CUT',
-    description: 'A Rebellious Classic. Channeling the iconic Scumbag Boogie, the BASTARD CUT is a style that turned heads in America's Golden Age and continues to do so today. Featuring a high fade and a sharp side part, it offers a clean, confident look with just enough length on top for a touch of wave. The BASTARD CUT is for the modern gentleman who appreciates a timeless style with a hint of rebellious spirit.',
+    description: "A Rebellious Classic. Channeling the iconic Scumbag Boogie, the BASTARD CUT is a style that turned heads in America's Golden Age and continues to do so today. Featuring a high fade and a sharp side part, it offers a clean, confident look with just enough length on top for a touch of wave. The BASTARD CUT is for the modern gentleman who appreciates a timeless style with a hint of rebellious spirit.",
     image: 'https://images.unsplash.com/photo-1540270776932-e72e7c2d11cd?q=80&w=1972&auto=format&fit=crop',
     price: 'PHP 380.00',
   },
   {
     name: 'HOOLIGAN CUT',
-    description: 'A Timeless Rebellion. The Hooligan Cut offers a versatile canvas for a look that's both sharp and timeless. Channel iconic eras with a classic pompadour, featuring volume on top and a sleek sweep back for an enduringly cool vibe. Alternatively, opt for the clean and polished slick back, a look that exudes understated confidence. With or without a part, the Hooligan Cut allows for a touch of individuality, reflecting your refined taste.',
+    description: "A Timeless Rebellion. The Hooligan Cut offers a versatile canvas for a look that's both sharp and timeless. Channel iconic eras with a classic pompadour, featuring volume on top and a sleek sweep back for an enduringly cool vibe. Alternatively, opt for the clean and polished slick back, a look that exudes understated confidence. With or without a part, the Hooligan Cut allows for a touch of individuality, reflecting your refined taste.",
     image: 'https://images.unsplash.com/photo-1534297635766-a262cdcb8ee4?q=80&w=2080&auto=format&fit=crop',
     price: 'PHP 380.00',
   },
   {
     name: 'BUGSY CUT',
-    description: 'A Defined Edge, Effortless Style. The Bugsy Cut takes inspiration from the clean lines of the classic bald fade but adds an elevated edge. Unlike a buzz cut or military fade, the Bugsy Cut features a precise, defined lineup for a modern and sophisticated look. It's low-maintenance for the modern-day gentleman but still delivers a touch of contemporary style—perfect for those who want a sharp, clean-cut appearance.',
+    description: "A Defined Edge, Effortless Style. The Bugsy Cut takes inspiration from the clean lines of the classic bald fade but adds an elevated edge. Unlike a buzz cut or military fade, the Bugsy Cut features a precise, defined lineup for a modern and sophisticated look. It's low-maintenance for the modern-day gentleman but still delivers a touch of contemporary style—perfect for those who want a sharp, clean-cut appearance.",
     image: 'https://images.unsplash.com/photo-1625145715770-9380d4726254?q=80&w=2080&auto=format&fit=crop',
     price: 'PHP 380.00',
   },
