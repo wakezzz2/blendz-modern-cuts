@@ -1,8 +1,9 @@
 
 import React from 'react';
 import { useTypewriter, Cursor } from 'react-simple-typewriter';
+import HeroCarousel from './HeroCarousel';
 
-const HeroSection = () => {
+const HeroSection = ({ onBook }: { onBook: () => void }) => {
   const [text] = useTypewriter({
     words: ['Precision Cuts', 'Skin Fades', 'Beard Line-ups', 'Classic Styles. Modern Edge.'],
     loop: 0,
@@ -13,14 +14,8 @@ const HeroSection = () => {
 
   return (
     <section id="home" className="h-screen relative bg-barber-black overflow-hidden flex items-center">
-      {/* Background gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-barber-black via-barber-black/95 to-barber-charcoal z-0"></div>
-      
-      {/* Background image */}
-      <div 
-        className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?q=80&w=2940&auto=format&fit=crop')] 
-                 bg-cover bg-center opacity-20 z-[-1]"
-      ></div>
+      {/* Background carousel */}
+      <HeroCarousel />
       
       <div className="container mx-auto px-4 z-10 mt-16">
         <div className="max-w-3xl mx-auto text-center">
@@ -37,9 +32,9 @@ const HeroSection = () => {
             Where precision meets style in every cut
           </p>
           <div className="flex flex-col md:flex-row gap-4 justify-center animate-slide-in-bottom">
-            <a href="#book" className="btn btn-primary text-lg py-3 px-8">
+            <button onClick={onBook} className="btn btn-primary text-lg py-3 px-8">
               Book Now
-            </a>
+            </button>
             <a href="#styles" className="btn btn-outline text-lg py-3 px-8">
               View Styles
             </a>
