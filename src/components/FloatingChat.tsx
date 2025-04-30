@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { MessageSquare, X, Send } from 'lucide-react';
+import { MessageSquare, X, Send, Scissors } from 'lucide-react';
 
 const FloatingChat = () => {
   const [isOpen, setIsOpen] = useState(false);
