@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Instagram, Facebook, TikTok, Scissors } from 'lucide-react';
+import { Instagram, Facebook, Scissors } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -23,7 +23,7 @@ const Footer = () => {
                 <Facebook />
               </a>
               <a href="https://tiktok.com" className="text-barber-offwhite hover:text-barber-gold transition-colors">
-                <TikTok />
+                <Scissors />
               </a>
             </div>
           </div>
