@@ -4,6 +4,7 @@ import { Scissors } from 'lucide-react';
 
 const Navbar = ({ onBookNowClick }: { onBookNowClick: () => void }) => {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleScroll = () => {
     const offset = window.scrollY;
@@ -21,6 +22,10 @@ const Navbar = ({ onBookNowClick }: { onBookNowClick: () => void }) => {
     };
   }, []);
 
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
   return (
     <nav
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
@@ -29,7 +34,7 @@ const Navbar = ({ onBookNowClick }: { onBookNowClick: () => void }) => {
           : 'bg-transparent py-4'
       }`}
     >
-      <div className="container mx-auto flex justify-between items-center">
+      <div className="container mx-auto flex justify-between items-center px-4">
         <a href="#" className="flex items-center gap-2 text-barber-gold">
           <Scissors className="h-6 w-6" />
           <span className="font-anton text-xl">MACOR BLENDZ</span>
@@ -52,7 +57,7 @@ const Navbar = ({ onBookNowClick }: { onBookNowClick: () => void }) => {
         >
           Book Now
         </a>
-        <button className="md:hidden text-barber-gold">
+        <button className="md:hidden text-barber-gold" onClick={toggleMenu}>
           <svg 
             xmlns="http://www.w3.org/2000/svg" 
             width="24" 
@@ -70,6 +75,35 @@ const Navbar = ({ onBookNowClick }: { onBookNowClick: () => void }) => {
           </svg>
         </button>
       </div>
+
+      {/* Mobile menu */}
+      {menuOpen && (
+        <div className="md:hidden bg-barber-black/95 border-t border-barber-gold/10 py-4 px-4 animate-fade-in">
+          <div className="flex flex-col space-y-4">
+            {['About', 'Services', 'Styles', 'Testimonials'].map((item) => (
+              <a
+                key={item}
+                href={`#${item.toLowerCase()}`}
+                className="text-barber-offwhite hover:text-barber-gold transition-colors px-2 py-1"
+                onClick={() => setMenuOpen(false)}
+              >
+                {item}
+              </a>
+            ))}
+            <a
+              onClick={(e) => {
+                e.preventDefault();
+                setMenuOpen(false);
+                onBookNowClick();
+              }}
+              href="#"
+              className="btn btn-primary w-full text-center py-2"
+            >
+              Book Now
+            </a>
+          </div>
+        </div>
+      )}
     </nav>
   );
 };

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Instagram, Facebook, Scissors } from 'lucide-react';
+import { Instagram, Facebook, Scissors, Heart } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -13,7 +13,7 @@ const Footer = () => {
               <h3 className="font-anton text-xl text-barber-gold">MACOR BLENDZ</h3>
             </div>
             <p className="text-barber-offwhite/70 mb-6">
-              Premium men's grooming experience, delivering classic styles with modern techniques.
+              Premium men's grooming experience, delivering classic styles with modern techniques. Founded in October 1, 2020.
             </p>
             <div className="flex space-x-4">
               <a href="https://instagram.com" className="text-barber-offwhite hover:text-barber-gold transition-colors">
@@ -47,12 +47,11 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold text-barber-gold mb-4">Contact Us</h3>
             <address className="not-italic space-y-2 text-barber-offwhite/70">
-              <p>123 Style Street</p>
-              <p>Metro City, MC 12345</p>
-              <p>United States</p>
+              <p>Capoocan, Leyte</p>
+              <p>Philippines</p>
               <p className="pt-2">
-                <a href="tel:+15551234567" className="hover:text-barber-gold transition-colors">
-                  555-123-4567
+                <a href="tel:+639207881577" className="hover:text-barber-gold transition-colors">
+                  0920-788-1577
                 </a>
               </p>
               <p>
@@ -68,6 +67,9 @@ const Footer = () => {
         
         <div className="text-center text-barber-offwhite/50 text-sm">
           <p>&copy; {new Date().getFullYear()} MACOR BLENDZ. All rights reserved.</p>
+          <p className="mt-2 flex items-center justify-center gap-1">
+            Designed with <Heart className="h-3 w-3 text-barber-gold inline" /> by Clarence Emmanuel Jamora
+          </p>
         </div>
       </div>
     </footer>

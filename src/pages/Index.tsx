@@ -9,6 +9,7 @@ import TestimonialsSection from '@/components/TestimonialsSection';
 import HaircutStylesSection from '@/components/HaircutStylesSection';
 import Footer from '@/components/Footer';
 import BookingModal from '@/components/BookingModal';
+import FloatingChat from '@/components/FloatingChat';
 
 const Index = () => {
   const [bookingModalOpen, setBookingModalOpen] = useState(false);
@@ -30,6 +31,9 @@ const Index = () => {
       
       {/* Booking Modal */}
       <BookingModal open={bookingModalOpen} onOpenChange={setBookingModalOpen} />
+      
+      {/* Floating Chat */}
+      <FloatingChat />
     </div>
   );
 };

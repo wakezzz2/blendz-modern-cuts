@@ -12,7 +12,7 @@ const styles = [
   {
     name: 'TONY CUT',
     description: "Low-Key. High Impact. A modern remix of the classic military cut, the TONY CUT offers a clean, confident look without the fuss. Short hair, easy styling—it's perfect for men who want to look sharp but don't have time for quiffs or pompadours. The TONY CUT is all about refined, understated style that lets your confidence do the talking.",
-    image: 'https://images.unsplash.com/photo-1605497788044-5a32c7078486?q=80&w=2787&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?q=80&w=2940&auto=format&fit=crop',
     price: 'PHP 380.00',
   },
   {
@@ -24,7 +24,7 @@ const styles = [
   {
     name: 'BASTARD CUT',
     description: "A Rebellious Classic. Channeling the iconic Scumbag Boogie, the BASTARD CUT is a style that turned heads in America's Golden Age and continues to do so today. Featuring a high fade and a sharp side part, it offers a clean, confident look with just enough length on top for a touch of wave. The BASTARD CUT is for the modern gentleman who appreciates a timeless style with a hint of rebellious spirit.",
-    image: 'https://images.unsplash.com/photo-1540270776932-e72e7c2d11cd?q=80&w=1972&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1599351431202-1e0f0137899a?q=80&w=2788&auto=format&fit=crop',
     price: 'PHP 380.00',
   },
   {
@@ -70,7 +70,7 @@ const HaircutStylesSection = ({ onBook }: { onBook: () => void }) => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-barber-offwhite/90 mb-4 line-clamp-3">
+                <CardDescription className="text-barber-offwhite/90 mb-4 text-sm h-32 overflow-y-auto custom-scrollbar pr-2">
                   {style.description}
                 </CardDescription>
                 <div className="flex justify-between items-center mt-4">
