@@ -36,7 +36,7 @@ const styles = [
   {
     name: 'BUGSY CUT',
     description: "A Defined Edge, Effortless Style. The Bugsy Cut takes inspiration from the clean lines of the classic bald fade but adds an elevated edge. Unlike a buzz cut or military fade, the Bugsy Cut features a precise, defined lineup for a modern and sophisticated look. It's low-maintenance for the modern-day gentleman but still delivers a touch of contemporary style—perfect for those who want a sharp, clean-cut appearance.",
-    image: 'https://images.unsplash.com/photo-1625145715770-9380d4726254?q=80&w=2080&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1621605830738-3836bcb1e206?q=80&w=2070&auto=format&fit=crop',
     price: 'PHP 380.00',
   },
 ];

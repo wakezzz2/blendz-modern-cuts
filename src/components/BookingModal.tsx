@@ -1,202 +1,251 @@
 
-import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useToast } from '@/hooks/use-toast';
+import React, { useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { format } from "date-fns";
-import { Calendar as CalendarIcon, Clock } from "lucide-react";
+import { CalendarIcon, Clock } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { toast } from "@/hooks/use-toast";
 
-const BookingModal = ({ open, onOpenChange }: { open: boolean, onOpenChange: (open: boolean) => void }) => {
-  const { toast } = useToast();
+interface BookingModalProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}
+
+const availableTimeSlots = [
+  "9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM",
+  "1:00 PM", "1:30 PM", "2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM", 
+  "4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM"
+];
+
+const BookingModal = ({ open, onOpenChange }: BookingModalProps) => {
   const [date, setDate] = useState<Date | undefined>(undefined);
-  const [formData, setFormData] = useState({
-    name: '',
-    contact: '',
-    service: '',
-    time: '',
-  });
+  const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [service, setService] = useState("TUF GENT");
+  const [step, setStep] = useState(1);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+  const handleDateSelect = (selectedDate: Date | undefined) => {
+    setDate(selectedDate);
+    if (selectedDate) setStep(2);
+  };
+
+  const handleTimeSelect = (time: string) => {
+    setSelectedTime(time);
+    setStep(3);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Format date for submission
-    const formattedDate = date ? format(date, 'yyyy-MM-dd') : '';
-    
-    console.log('Booking form submitted:', {
-      ...formData,
-      date: formattedDate
-    });
+    if (!date || !selectedTime || !name || !phone) return;
     
     toast({
-      title: "Booking Received!",
-      description: "We'll contact you to confirm your appointment.",
+      title: "Booking Confirmed!",
+      description: `Your appointment is scheduled for ${format(date, "EEEE, MMMM do, yyyy")} at ${selectedTime}.`,
       variant: "default",
     });
     
     // Reset form
-    setFormData({
-      name: '',
-      contact: '',
-      service: '',
-      time: '',
-    });
     setDate(undefined);
-
+    setSelectedTime(null);
+    setName("");
+    setPhone("");
+    setService("TUF GENT");
+    setStep(1);
     onOpenChange(false);
   };
 
-  // Available time slots
-  const timeSlots = [
-    "09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM", 
-    "11:00 AM", "11:30 AM", "01:00 PM", "01:30 PM", 
-    "02:00 PM", "02:30 PM", "03:00 PM", "03:30 PM",
-    "04:00 PM", "04:30 PM", "05:00 PM"
+  const isWeekend = (date: Date) => {
+    const day = date.getDay();
+    return day === 0; // Sunday is unavailable
+  };
+
+  const isPastDate = (date: Date) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return date < today;
+  };
+
+  const resetBooking = () => {
+    setStep(1);
+    setDate(undefined);
+    setSelectedTime(null);
+  };
+
+  const services = [
+    "TUF GENT", "TONY CUT", "THE BANKER CUT",
+    "BASTARD CUT", "HOOLIGAN CUT", "BUGSY CUT"
   ];
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-barber-charcoal text-barber-offwhite border border-barber-gold/20 max-w-md w-full animate-in fade-in-0 zoom-in-95 duration-300">
+      <DialogContent className="bg-barber-charcoal text-barber-offwhite border-barber-gold/20 max-w-md md:max-w-lg">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-barber-gold text-center">Book Your Appointment</DialogTitle>
+          <DialogTitle className="text-2xl text-barber-gold font-anton tracking-wide">Book Your Appointment</DialogTitle>
+          <DialogDescription className="text-barber-offwhite/80">
+            Select a date, time and service for your next haircut.
+          </DialogDescription>
         </DialogHeader>
         
-        <form onSubmit={handleSubmit} className="space-y-4 mt-4">
-          <div className="space-y-1">
-            <label htmlFor="name" className="block text-sm font-medium text-barber-offwhite">Full Name</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              className="w-full p-3 rounded bg-barber-black text-barber-offwhite border border-barber-gold/30 focus:border-barber-gold focus:outline-none transition-all duration-200"
-              placeholder="Enter your name"
-            />
+        <div className="mt-4">
+          {/* Step indicator */}
+          <div className="flex items-center justify-center mb-6">
+            <div className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 1 ? 'bg-barber-gold text-barber-black' : 'bg-barber-black/60 text-barber-offwhite/60'}`}>1</div>
+            <div className={`h-1 w-10 ${step >= 2 ? 'bg-barber-gold' : 'bg-barber-black/60'}`}></div>
+            <div className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 2 ? 'bg-barber-gold text-barber-black' : 'bg-barber-black/60 text-barber-offwhite/60'}`}>2</div>
+            <div className={`h-1 w-10 ${step >= 3 ? 'bg-barber-gold' : 'bg-barber-black/60'}`}></div>
+            <div className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 3 ? 'bg-barber-gold text-barber-black' : 'bg-barber-black/60 text-barber-offwhite/60'}`}>3</div>
           </div>
           
-          <div className="space-y-1">
-            <label htmlFor="contact" className="block text-sm font-medium text-barber-offwhite">Email or Phone</label>
-            <input
-              type="text"
-              id="contact"
-              name="contact"
-              value={formData.contact}
-              onChange={handleChange}
-              required
-              className="w-full p-3 rounded bg-barber-black text-barber-offwhite border border-barber-gold/30 focus:border-barber-gold focus:outline-none transition-all duration-200"
-              placeholder="Enter your contact information"
-            />
-          </div>
+          {/* Step 1: Select Date */}
+          {step === 1 && (
+            <div className="space-y-4">
+              <div className="flex items-center gap-2 mb-2">
+                <CalendarIcon className="h-5 w-5 text-barber-gold" />
+                <h3 className="text-lg font-semibold">Select Date</h3>
+              </div>
+              <div className="flex justify-center">
+                <Calendar
+                  mode="single"
+                  selected={date}
+                  onSelect={handleDateSelect}
+                  disabled={(date) => isPastDate(date) || isWeekend(date)}
+                  className="border border-barber-gold/20 rounded-md bg-barber-black p-3 pointer-events-auto"
+                />
+              </div>
+            </div>
+          )}
           
-          <div className="space-y-1">
-            <label htmlFor="service" className="block text-sm font-medium text-barber-offwhite">Service</label>
-            <select
-              id="service"
-              name="service"
-              value={formData.service}
-              onChange={handleChange}
-              required
-              className="w-full p-3 rounded bg-barber-black text-barber-offwhite border border-barber-gold/30 focus:border-barber-gold focus:outline-none transition-all duration-200"
-            >
-              <option value="">Select a service</option>
-              <option value="tufgent">TUF GENT - PHP 380.00</option>
-              <option value="tonycut">TONY CUT - PHP 380.00</option>
-              <option value="banker">THE BANKER CUT - PHP 380.00</option>
-              <option value="bastard">BASTARD CUT - PHP 380.00</option>
-              <option value="hooligan">HOOLIGAN CUT - PHP 380.00</option>
-              <option value="bugsy">BUGSY CUT - PHP 380.00</option>
-              <option value="beard">Beard Trim - PHP 200.00</option>
-              <option value="shave">Hot Towel Shave - PHP 350.00</option>
-              <option value="kids">Kids Cut - PHP 250.00</option>
-              <option value="combo">Haircut & Beard - PHP 550.00</option>
-            </select>
-          </div>
-          
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-1">
-              <label className="block text-sm font-medium text-barber-offwhite">Date</label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
+          {/* Step 2: Select Time */}
+          {step === 2 && (
+            <div className="space-y-4">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2">
+                  <Clock className="h-5 w-5 text-barber-gold" />
+                  <h3 className="text-lg font-semibold">Select Time</h3>
+                </div>
+                <div>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    onClick={resetBooking} 
+                    className="text-barber-gold hover:text-barber-gold/80"
+                  >
+                    Change Date
+                  </Button>
+                </div>
+              </div>
+              
+              <div className="mb-4">
+                <p className="text-barber-gold font-semibold text-center">
+                  {date && format(date, "EEEE, MMMM do, yyyy")}
+                </p>
+              </div>
+              
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {availableTimeSlots.map((time) => (
+                  <button
+                    key={time}
+                    onClick={() => handleTimeSelect(time)}
                     className={cn(
-                      "w-full border-barber-gold/30 bg-barber-black text-barber-offwhite hover:bg-barber-black/90 hover:text-barber-gold pl-3 text-left font-normal flex justify-between items-center",
-                      !date && "text-barber-offwhite/60"
+                      "py-3 px-2 rounded-md border transition-all duration-200 hover:scale-105",
+                      selectedTime === time 
+                        ? "bg-barber-gold text-barber-black border-barber-gold" 
+                        : "bg-barber-black/70 border-barber-gold/30 hover:border-barber-gold"
                     )}
                   >
-                    {date ? format(date, "MMMM d, yyyy") : "Select date"}
-                    <CalendarIcon className="h-4 w-4 opacity-70" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0 bg-barber-black border border-barber-gold/30">
-                  <Calendar
-                    mode="single"
-                    selected={date}
-                    onSelect={setDate}
-                    initialFocus
-                    disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
-                    className="p-3 pointer-events-auto bg-barber-black text-barber-offwhite"
-                    classNames={{
-                      day_selected: "bg-barber-gold text-barber-black hover:bg-barber-gold hover:text-barber-black",
-                      day_today: "bg-barber-black text-barber-gold",
-                      day: "text-barber-offwhite hover:bg-barber-gold/20"
-                    }}
+                    {time}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          {/* Step 3: Personal Details & Service */}
+          {step === 3 && (
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="text-lg font-semibold">Your Details</h3>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => setStep(2)}
+                  className="text-barber-gold hover:text-barber-gold/80"
+                >
+                  Change Time
+                </Button>
+              </div>
+              
+              <div className="mb-4">
+                <p className="text-barber-gold font-semibold text-center">
+                  {date && format(date, "EEEE, MMMM do, yyyy")} at {selectedTime}
+                </p>
+              </div>
+              
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-sm font-medium mb-1" htmlFor="name">
+                    Full Name
+                  </label>
+                  <input
+                    id="name"
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                    className="w-full px-3 py-2 bg-barber-black border border-barber-gold/30 rounded-md focus:outline-none focus:border-barber-gold"
+                    placeholder="Your full name"
                   />
-                </PopoverContent>
-              </Popover>
-            </div>
-            
-            <div className="space-y-1">
-              <label htmlFor="time" className="block text-sm font-medium text-barber-offwhite">Time</label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className={cn(
-                      "w-full border-barber-gold/30 bg-barber-black text-barber-offwhite hover:bg-barber-black/90 hover:text-barber-gold pl-3 text-left font-normal flex justify-between items-center",
-                      !formData.time && "text-barber-offwhite/60"
-                    )}
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium mb-1" htmlFor="phone">
+                    Phone Number
+                  </label>
+                  <input
+                    id="phone"
+                    type="tel"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    required
+                    className="w-full px-3 py-2 bg-barber-black border border-barber-gold/30 rounded-md focus:outline-none focus:border-barber-gold"
+                    placeholder="Your contact number"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium mb-1" htmlFor="service">
+                    Preferred Style
+                  </label>
+                  <select
+                    id="service"
+                    value={service}
+                    onChange={(e) => setService(e.target.value)}
+                    className="w-full px-3 py-2 bg-barber-black border border-barber-gold/30 rounded-md focus:outline-none focus:border-barber-gold"
                   >
-                    {formData.time ? formData.time : "Select time"}
-                    <Clock className="h-4 w-4 opacity-70" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-52 p-0 bg-barber-black border border-barber-gold/30">
-                  <div className="max-h-60 overflow-y-auto p-1">
-                    {timeSlots.map((time) => (
-                      <Button
-                        key={time}
-                        variant="ghost"
-                        className="w-full justify-start font-normal text-barber-offwhite hover:text-barber-gold hover:bg-barber-black/90"
-                        onClick={() => {
-                          setFormData((prev) => ({ ...prev, time: time }));
-                        }}
-                      >
-                        {time}
-                      </Button>
+                    {services.map((s) => (
+                      <option key={s} value={s} className="bg-barber-black">
+                        {s}
+                      </option>
                     ))}
-                  </div>
-                </PopoverContent>
-              </Popover>
-            </div>
-          </div>
-          
-          <button
-            type="submit"
-            className="w-full py-3 btn btn-primary mt-4 transition-all duration-300 hover:scale-105"
-          >
-            Book Appointment
-          </button>
-        </form>
+                  </select>
+                </div>
+              </div>
+              
+              <div className="pt-4">
+                <Button 
+                  type="submit"
+                  className="w-full bg-barber-gold text-barber-black hover:bg-barber-gold/90 font-medium py-2"
+                >
+                  Confirm Booking
+                </Button>
+              </div>
+            </form>
+          )}
+        </div>
       </DialogContent>
     </Dialog>
   );

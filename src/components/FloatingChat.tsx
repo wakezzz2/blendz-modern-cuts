@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MessageSquare, X, Send, Scissors } from 'lucide-react';
 
 const FloatingChat = () => {
@@ -8,9 +8,34 @@ const FloatingChat = () => {
   const [messages, setMessages] = useState<{ text: string; isUser: boolean }[]>([
     { text: "Hello! Thanks for visiting Macor Blendz. How can we help you today?", isUser: false }
   ]);
+  const [isTyping, setIsTyping] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      // Add bounce animation to the latest message
+      const messagesElement = document.getElementById('chat-messages');
+      if (messagesElement) {
+        messagesElement.scrollTop = messagesElement.scrollHeight;
+      }
+    }
+  }, [messages, isOpen]);
 
   const toggleChat = () => {
     setIsOpen(!isOpen);
+    
+    // If opening the chat and there's only one message, add welcome message after a delay
+    if (!isOpen && messages.length === 1) {
+      setTimeout(() => {
+        setIsTyping(true);
+        setTimeout(() => {
+          setIsTyping(false);
+          setMessages(prev => [
+            ...prev, 
+            { text: "We offer a variety of haircut styles. Would you like to book an appointment?", isUser: false }
+          ]);
+        }, 2000);
+      }, 1000);
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -21,11 +46,30 @@ const FloatingChat = () => {
     setMessages([...messages, { text: message, isUser: true }]);
     setMessage('');
     
-    // Simulate response after a short delay
+    // Simulate typing indicators
     setTimeout(() => {
-      let response = "Thanks for your message! We'll get back to you soon. If you'd like to book an appointment, you can click the 'Book Now' button at the top of the page.";
-      setMessages(prev => [...prev, { text: response, isUser: false }]);
-    }, 1000);
+      setIsTyping(true);
+      
+      // Simulate response after a typing delay
+      setTimeout(() => {
+        setIsTyping(false);
+        
+        let response = "";
+        if (message.toLowerCase().includes("book") || message.toLowerCase().includes("appointment")) {
+          response = "Great! You can book an appointment by clicking the 'Book Now' button at the top of the page. Is there a specific style you're interested in?";
+        } else if (message.toLowerCase().includes("style") || message.toLowerCase().includes("haircut")) {
+          response = "We offer various signature styles including TUF GENT, TONY CUT, BANKER CUT, BASTARD CUT, HOOLIGAN CUT, and BUGSY CUT. Check out our Styles section to see examples!";
+        } else if (message.toLowerCase().includes("price") || message.toLowerCase().includes("cost")) {
+          response = "Our standard haircuts are priced at PHP 380.00. We also offer package deals for regular customers!";
+        } else if (message.toLowerCase().includes("hello") || message.toLowerCase().includes("hi")) {
+          response = "Hello there! How can I help you today? Looking for a new style or want to book an appointment?";
+        } else {
+          response = "Thanks for your message! We'll get back to you soon. If you'd like immediate assistance, you can call us at 0920-788-1577 or book an appointment online.";
+        }
+        
+        setMessages(prev => [...prev, { text: response, isUser: false }]);
+      }, 1500);
+    }, 500);
   };
 
   return (
@@ -45,7 +89,7 @@ const FloatingChat = () => {
           </div>
           
           {/* Messages */}
-          <div className="p-4 h-80 overflow-y-auto flex flex-col gap-3 custom-scrollbar">
+          <div id="chat-messages" className="p-4 h-80 overflow-y-auto flex flex-col gap-3 custom-scrollbar">
             {messages.map((msg, index) => (
               <div 
                 key={index} 
@@ -56,6 +100,15 @@ const FloatingChat = () => {
                 {msg.text}
               </div>
             ))}
+            
+            {/* Typing indicator */}
+            {isTyping && (
+              <div className="mr-auto bg-barber-black/60 text-barber-offwhite p-3 rounded-lg flex gap-1 animate-fade-in">
+                <span className="w-2 h-2 bg-barber-gold rounded-full animate-pulse"></span>
+                <span className="w-2 h-2 bg-barber-gold rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></span>
+                <span className="w-2 h-2 bg-barber-gold rounded-full animate-pulse" style={{animationDelay: '0.4s'}}></span>
+              </div>
+            )}
           </div>
           
           {/* Input */}
@@ -70,6 +123,7 @@ const FloatingChat = () => {
             <button 
               type="submit"
               className="bg-barber-gold text-barber-black rounded-md p-2 hover:bg-barber-gold/90 transition-colors"
+              disabled={!message.trim()}
             >
               <Send className="h-5 w-5" />
             </button>
@@ -80,8 +134,13 @@ const FloatingChat = () => {
       {/* Floating button */}
       <button
         onClick={toggleChat}
-        className={`bg-barber-gold text-barber-black rounded-full p-4 shadow-lg hover:scale-110 transition-transform ${isOpen ? 'scale-90' : ''}`}
+        className={`bg-barber-gold text-barber-black rounded-full p-4 shadow-lg hover:scale-110 transition-all ${isOpen ? 'scale-90' : ''} relative`}
       >
+        {!isOpen && messages.length > 1 && (
+          <span className="absolute -top-1 -right-1 bg-red-500 text-white w-5 h-5 rounded-full text-xs flex items-center justify-center animate-pulse">
+            1
+          </span>
+        )}
         {isOpen ? <X className="h-6 w-6" /> : <MessageSquare className="h-6 w-6" />}
       </button>
     </div>
