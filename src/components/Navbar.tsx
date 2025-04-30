@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Scissors } from 'lucide-react';
 
-const Navbar = () => {
+const Navbar = ({ onBookNowClick }: { onBookNowClick: () => void }) => {
   const [scrolled, setScrolled] = useState(false);
 
   const handleScroll = () => {
@@ -35,7 +35,7 @@ const Navbar = () => {
           <span className="font-anton text-xl">MACOR BLENDZ</span>
         </a>
         <div className="hidden md:flex items-center gap-8">
-          {['About', 'Services', 'Styles', 'Testimonials', 'Book'].map((item) => (
+          {['About', 'Services', 'Styles', 'Testimonials'].map((item) => (
             <a
               key={item}
               href={`#${item.toLowerCase()}`}
@@ -46,8 +46,9 @@ const Navbar = () => {
           ))}
         </div>
         <a
-          href="#book"
-          className="btn btn-primary hidden md:inline-flex"
+          onClick={onBookNowClick}
+          href="#"
+          className="btn btn-primary hidden md:inline-flex hover:scale-105 transition-transform duration-300 cursor-pointer"
         >
           Book Now
         </a>

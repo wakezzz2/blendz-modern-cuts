@@ -19,7 +19,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-barber-black text-barber-offwhite">
-      <Navbar />
+      <Navbar onBookNowClick={handleOpenBookingModal} />
       <HeroSection onBook={handleOpenBookingModal} />
       <AboutSection />
       <ServicesSection onBook={handleOpenBookingModal} />
