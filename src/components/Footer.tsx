@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Instagram, Facebook, Scissors, Heart } from 'lucide-react';
+import { Instagram, Facebook, Scissors } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -67,8 +67,8 @@ const Footer = () => {
         
         <div className="text-center text-barber-offwhite/50 text-sm">
           <p>&copy; {new Date().getFullYear()} MACOR BLENDZ. All rights reserved.</p>
-          <p className="mt-2 flex items-center justify-center gap-1">
-            Designed with <Heart className="h-3 w-3 text-barber-gold inline" /> by Clarence Emmanuel Jamora
+          <p className="mt-2">
+            Designed by Clarence Emmanuel Jamora
           </p>
         </div>
       </div>
